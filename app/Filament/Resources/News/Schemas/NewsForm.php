@@ -26,7 +26,7 @@ class NewsForm
                 TextInput::make('title')
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn(string $context, $state, Set $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null),
+                    ->afterStateUpdated(fn(string $context, $state, Set $set) => $context === 'create' || $context === 'edit' ? $set('slug', Str::slug($state)) : null),
 
                 TextInput::make('slug')
                     ->required()

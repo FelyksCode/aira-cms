@@ -18,11 +18,9 @@ class NewsInfolist
                     ->columnSpanFull(),
                 ImageEntry::make('image_url')
                     ->placeholder('-'),
-                TextEntry::make('categories.name')
-                    ->label('Categories')
+                TextEntry::make('category')
                     ->placeholder('-')
-                    ->badge()
-                    ->separator(', '),
+                    ->badge(),
                 TextEntry::make('source_url')
                     ->label("Source")
                     ->placeholder('-'),

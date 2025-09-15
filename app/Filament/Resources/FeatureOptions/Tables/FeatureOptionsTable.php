@@ -1,36 +1,48 @@
 <?php
 
-namespace App\Filament\Resources\News\Tables;
+namespace App\Filament\Resources\FeatureOptions\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class NewsTable
+class FeatureOptionsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('title')
-                    ->searchable()
-                    ->limit(20),
-                TextColumn::make('slug')
-                    ->searchable()
-                    ->limit(20),
-                ImageColumn::make('image_url')
-                    ->label("Thumbnail"),
-                TextColumn::make('category')
-                    ->badge()
+                TextColumn::make('aiFeature.name')
+                    ->label("AI Feature Name")
                     ->sortable(),
-                TextColumn::make('source_url')
+                TextColumn::make('cancer.name')
+                    ->label("Cancer Name")
+                    ->sortable(),
+                TextColumn::make('key')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('created_by')
+                TextColumn::make('label')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                IconColumn::make('require_csv')
+                    ->label("Require CSV")
+                    ->boolean(),
+                IconColumn::make('require_img')
+                    ->label("Require IMG")
+                    ->boolean(),
+                TextColumn::make('ai_model_name')
+                    ->label("AI Model Name")
+                    ->searchable(),
+                TextColumn::make('ai_data_type')
+                    ->label("AI Data Type")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('sample_dataset_url')
+                    ->label("Sample Dataset URL")
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\News\Pages;
+namespace App\Filament\Resources\Cancers\Pages;
 
-use App\Filament\Resources\News\NewsResource;
+use App\Filament\Resources\Cancers\CancerResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditNews extends EditRecord
+class EditCancer extends EditRecord
 {
-    protected static string $resource = NewsResource::class;
+    protected static string $resource = CancerResource::class;
 
     protected function getRedirectUrl(): string
     {

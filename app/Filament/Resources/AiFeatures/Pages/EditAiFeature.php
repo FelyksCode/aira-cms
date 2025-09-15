@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\News\Pages;
+namespace App\Filament\Resources\AiFeatures\Pages;
 
-use App\Filament\Resources\News\NewsResource;
+use App\Filament\Resources\AiFeatures\AiFeatureResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditNews extends EditRecord
+class EditAiFeature extends EditRecord
 {
-    protected static string $resource = NewsResource::class;
+    protected static string $resource = AiFeatureResource::class;
 
     protected function getRedirectUrl(): string
     {
