@@ -16,15 +16,7 @@ class News extends Model
         'body',
         'image_url',
         'source_url',
+        'category',
         'created_by'
     ];
-
-    function categories(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            NewsCategory::class,
-            'news_news_category'
-        )
-            ->withTimestamps();
-    }
 }

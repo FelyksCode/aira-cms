@@ -43,18 +43,14 @@ class NewsForm
                 TextInput::make('source_url')
                     ->label("Source URL")
                     ->url(),
+
+                TextInput::make('category')
+                    ->required(),
+
                 TextInput::make('created_by')
                     ->required(),
 
-                Select::make('categories')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
-                    ->relationship('categories', 'name')
-                    ->createOptionForm([
-                        TextInput::make('name')
-                            ->required(),
-                    ]),
+
 
             ]);
     }
