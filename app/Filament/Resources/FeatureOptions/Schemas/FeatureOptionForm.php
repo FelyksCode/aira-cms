@@ -40,11 +40,18 @@ class FeatureOptionForm
                     ->unique(FeatureOption::class, 'key', ignoreRecord: true),
 
                 Toggle::make('require_csv')
-                    ->label("Require CSV")
-                    ->required(),
+                    ->label('Require CSV'),
+
                 Toggle::make('require_img')
-                    ->label("Require Image")
-                    ->required(),
+                    ->label('Require Image')
+                    ->rules([
+                        function ($attribute, $value, $fail) {
+                            if (! request('require_csv') && ! request('require_img')) {
+                                $fail('At least one option must be selected.');
+                            }
+                        },
+                    ]),
+
                 TextInput::make('ai_model_name')
                     ->label("AI Model Name")
                     ->required(),

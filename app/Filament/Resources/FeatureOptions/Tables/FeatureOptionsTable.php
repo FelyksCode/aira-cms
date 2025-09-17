@@ -26,15 +26,23 @@ class FeatureOptionsTable
                 TextColumn::make('key')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('label')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+
                 ToggleColumn::make('require_csv')
-                    ->label("Require CSV")
-                    ->alignCenter(),
+                    ->label('Require CSV')
+                    ->alignCenter()
+                    ->disabled(
+                        fn($record): bool =>
+                        $record->require_csv && ! $record->require_img
+                    ),
+
                 ToggleColumn::make('require_img')
-                    ->label("Require IMG")
-                    ->alignCenter(),
+                    ->label('Require IMG')
+                    ->alignCenter()
+                    ->disabled(
+                        fn($record): bool =>
+                        $record->require_img && ! $record->require_csv
+                    ),
+
                 TextColumn::make('ai_model_name')
                     ->label("AI Model Name")
                     ->searchable(),

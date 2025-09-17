@@ -21,6 +21,12 @@ class FeatureOption extends Model
         'sample_dataset_url'
     ];
 
+    protected $casts = [
+        'require_csv' => 'boolean',
+        'require_img' => 'boolean',
+    ];
+
+
     public function aiFeature()
     {
         return $this->belongsTo(AiFeature::class);
