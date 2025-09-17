@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class FeatureOptionsTable
@@ -28,12 +29,12 @@ class FeatureOptionsTable
                 TextColumn::make('label')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false),
-                IconColumn::make('require_csv')
+                ToggleColumn::make('require_csv')
                     ->label("Require CSV")
-                    ->boolean(),
-                IconColumn::make('require_img')
+                    ->alignCenter(),
+                ToggleColumn::make('require_img')
                     ->label("Require IMG")
-                    ->boolean(),
+                    ->alignCenter(),
                 TextColumn::make('ai_model_name')
                     ->label("AI Model Name")
                     ->searchable(),
