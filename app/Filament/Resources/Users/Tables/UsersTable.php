@@ -15,11 +15,17 @@ class UsersTable
     {
         return $table
             ->columns([
+
+                TextColumn::make('nik')
+                    ->label('NIK')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email address')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable()

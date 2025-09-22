@@ -12,13 +12,17 @@ class UserForm
     {
         return $schema
             ->components([
+                TextInput::make('nik')
+                    ->label('NIK')
+                    ->required()
+                    ->maxLength(16)
+                    ->numeric(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')
                     ->password()
                     ->required(),

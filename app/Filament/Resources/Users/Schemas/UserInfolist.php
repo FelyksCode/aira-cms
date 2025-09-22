@@ -11,6 +11,8 @@ class UserInfolist
     {
         return $schema
             ->components([
+                TextEntry::make('nik')
+                    ->label('NIK'),
                 TextEntry::make('name'),
                 TextEntry::make('email')
                     ->label('Email address'),

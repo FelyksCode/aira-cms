@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -44,5 +45,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the valid SatuSehat OAuth token for this user
+     */
+    public function getSatuSehatToken(): ?string
+    {
+        $tokenRecord = DB::table('personal_access_tokens')
+            ->where('tokenable_type', 'App\Models\User')
+            ->where('tokenable_id', $this->id)
+            ->where('name', 'satusehat_oauth_token')
+            ->where('expires_at', '>', now())
+            ->first();
+
+        return $tokenRecord?->token;
     }
 }
