@@ -15,7 +15,8 @@ class NewsInfolist
                 TextEntry::make('title'),
                 TextEntry::make('slug'),
                 TextEntry::make('body')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->html(),
                 ImageEntry::make('image_url')
                     ->placeholder('-'),
                 TextEntry::make('category')

@@ -16,6 +16,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Schemas\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Malzariey\FilamentLexicalEditor\LexicalEditor;
 
 class NewsForm
 {
@@ -32,7 +33,7 @@ class NewsForm
                     ->required()
                     ->unique(News::class, 'slug', ignoreRecord: true),
 
-                Textarea::make('body')
+                LexicalEditor::make('body')
                     ->required()
                     ->columnSpanFull(),
 
