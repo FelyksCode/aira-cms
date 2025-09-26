@@ -4,6 +4,10 @@ Web-based Content Management System for AIRA.
 
 Using Laravel 12 and Filament v.4
 
+## More Information
+
+For more details, guides, and documentation, please visit the [AIRA CMS Wiki](https://github.com/FelyksCode/aira-cms/wiki).
+
 ## Installation
 
 App Requirements
