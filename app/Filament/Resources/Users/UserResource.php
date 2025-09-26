@@ -37,6 +37,11 @@ class UserResource extends Resource
         return UsersTable::configure($table);
     }
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->hasRole('admin');
+    }
+
     public static function getRelations(): array
     {
         return [

@@ -21,4 +21,10 @@ class UserOverview extends StatsOverviewWidget
             // Add more Stat or Chart if needed
         ];
     }
+
+    // Show widget if role admin
+    public static function canView(): bool
+    {
+        return auth()->user()?->hasRole('admin');
+    }
 }

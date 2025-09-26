@@ -13,4 +13,9 @@ class Organization extends Model
     protected $casts = [
         'json' => 'array',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

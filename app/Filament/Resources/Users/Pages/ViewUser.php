@@ -16,4 +16,13 @@ class ViewUser extends ViewRecord
             EditAction::make(),
         ];
     }
+
+    protected function authorizeAccess(): void
+    {
+        abort_unless(
+            auth()->user()?->hasRole('admin'),
+            403,
+            'You are not authorized to view this page.'
+        );
+    }
 }

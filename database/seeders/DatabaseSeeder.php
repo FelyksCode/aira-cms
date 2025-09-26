@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'admin']);
 
         User::factory()->create([
+            'role_id' => Role::where('name', 'admin')->first()->id,
             'name' => config('user.name'),
             'email' => config('user.email'),
             'password' => Hash::make(config('user.password')),

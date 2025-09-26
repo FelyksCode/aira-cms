@@ -36,4 +36,9 @@ class FeatureOption extends Model
     {
         return $this->belongsTo(Cancer::class);
     }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class, 'ai_feture_options_id');
+    }
 }

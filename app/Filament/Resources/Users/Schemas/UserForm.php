@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
@@ -15,6 +16,23 @@ class UserForm
     {
         return $schema
             ->components([
+                Select::make('organization_id')
+                    ->options(
+                        fn($record) => Organization::query()
+                            ->when($record?->id, fn($q) => $q->where('id', '!=', $record->id))
+                            ->get()
+                            ->mapWithKeys(function ($org) {
+                                $json = is_string($org->json) ? json_decode($org->json, true) : $org->json;
+
+                                return [
+                                    $org->id => $json["name"] ?? "Organization {$org->id}",
+                                ];
+                            })
+                            ->toArray()
+                    )
+                    ->disabled(
+                        fn(?User $record) => auth()->user()->role->name === 'user' && $record?->role->name === 'user'
+                    ),
                 Select::make('role_id')
                     ->options(
                         fn() => Role::all()->pluck('name', 'id')->toArray()

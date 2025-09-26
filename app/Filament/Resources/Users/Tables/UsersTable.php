@@ -29,6 +29,26 @@ class UsersTable
                 TextColumn::make('role.name')
                     ->label('Role')
                     ->searchable(),
+                TextColumn::make('organization.json')
+                    ->label('Organization')
+                    ->getStateUsing(
+                        fn($record) => $record->organization
+                            ? data_get($record->organization->json, 'name', '-')
+                            : '-'
+                    )
+                    ->searchable(
+                        query: function ($query, $search) {
+                            $query->whereHas('organization', function ($q) use ($search) {
+                                $q->whereRaw(
+                                    "LOWER(json_extract(json(json), '$.name')) LIKE ?",
+                                    ['%' . strtolower($search) . '%']
+                                );
+                            });
+                        }
+                    )
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->alignCenter(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,11 +59,7 @@ class UsersTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                // group select filter by role (admin or user)
                 SelectFilter::make("role")->relationship('role', 'name'),
-
-
-
             ])
             ->recordActions([
                 ViewAction::make(),
