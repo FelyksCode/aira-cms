@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\Role;
+use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -12,6 +15,18 @@ class UserForm
     {
         return $schema
             ->components([
+                Select::make('role_id')
+                    ->options(
+                        fn() => Role::all()->pluck('name', 'id')->toArray()
+                    )
+                    ->default(
+                        fn() => Role::where('name', 'user')->first()?->id
+                    )
+                    // hidden if user role user
+                    ->hidden(
+                        fn(?User $record) => auth()->user()->role->name === 'user' && $record?->role->name === 'user'
+                    )
+                    ->required(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
