@@ -48,7 +48,11 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Edit Profile')
                     ->url(fn() => UserResource::getUrl('edit', ['record' => auth()->id()]))
                     ->icon(Heroicon::User)
-                    ->sort(2),
+                    ->sort(2)
+                    ->isActiveWhen(function () {
+                        return request()->routeIs('*.resources.users.edit')
+                            && request()->route('record') == auth()->id();
+                    })
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([

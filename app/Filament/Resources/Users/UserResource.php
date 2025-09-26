@@ -22,6 +22,24 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
 
+    public static function getNavigationItems(): array
+    {
+        return [
+            \Filament\Navigation\NavigationItem::make(static::getNavigationLabel())
+                ->group(static::getNavigationGroup())
+                ->icon(static::getNavigationIcon())
+                ->url(static::getUrl('index'))
+                ->sort(static::getNavigationSort())
+                ->isActiveWhen(function () {
+                    return request()->routeIs('*.resources.users.*')
+                        && !(
+                            request()->routeIs('*.resources.users.edit')
+                            && request()->route('record') == auth()->id()
+                        );
+                }),
+        ];
+    }
+
     public static function form(Schema $schema): Schema
     {
         return UserForm::configure($schema);
