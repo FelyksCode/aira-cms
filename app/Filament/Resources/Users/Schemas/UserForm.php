@@ -17,9 +17,9 @@ class UserForm
         return $schema
             ->components([
                 Select::make('organization_id')
-                    ->options(
-                        fn($record) => Organization::query()
-                            ->when($record?->id, fn($q) => $q->where('id', '!=', $record->id))
+                    ->label("In Organization")
+                    ->options(function ($record) {
+                        return Organization::query()
                             ->get()
                             ->mapWithKeys(function ($org) {
                                 $json = is_string($org->json) ? json_decode($org->json, true) : $org->json;
@@ -28,12 +28,13 @@ class UserForm
                                     $org->id => $json["name"] ?? "Organization {$org->id}",
                                 ];
                             })
-                            ->toArray()
-                    )
+                            ->toArray();
+                    })
                     ->disabled(
                         fn(?User $record) => auth()->user()->role->name === 'user' && $record?->role->name === 'user'
                     ),
                 Select::make('role_id')
+                    ->label("Role")
                     ->options(
                         fn() => Role::all()->pluck('name', 'id')->toArray()
                     )
@@ -51,7 +52,9 @@ class UserForm
                     ->label('Email address')
                     ->email()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
+
+                // DateTimePicker::make('email_verified_at'),
+
                 TextInput::make('password')
                     ->password()
                     ->required(),

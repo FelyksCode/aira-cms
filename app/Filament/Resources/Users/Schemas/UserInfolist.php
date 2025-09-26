@@ -12,6 +12,14 @@ class UserInfolist
         return $schema
             ->components([
                 TextEntry::make('name'),
+                TextEntry::make('organization.json')
+                    ->label('Organization')
+                    ->placeholder('-')
+                    ->getStateUsing(
+                        fn($record) => $record->organization
+                            ? data_get($record->organization->json, 'name', '-')
+                            : '-'
+                    ),
                 TextEntry::make('role.name')
                     ->label('Role')
                     ->placeholder('-')
