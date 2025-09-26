@@ -26,7 +26,10 @@ class OrganizationsTable
                     ->getStateUsing(fn($record) => data_get($record->json, 'name'))
                     ->searchable(
                         query: function ($query, $search) {
-                            $query->whereRaw("LOWER(json_extract(json(json), '$.name')) LIKE ?", ['%' . strtolower($search) . '%']);
+                            $query->whereRaw(
+                                "LOWER(JSON_UNQUOTE(JSON_EXTRACT(json, '$.name'))) LIKE ?",
+                                ['%' . strtolower($search) . '%']
+                            );
                         }
                     )
 

@@ -40,7 +40,7 @@ class UsersTable
                         query: function ($query, $search) {
                             $query->whereHas('organization', function ($q) use ($search) {
                                 $q->whereRaw(
-                                    "LOWER(json_extract(json(json), '$.name')) LIKE ?",
+                                    "LOWER(JSON_UNQUOTE(JSON_EXTRACT(json, '$.name'))) LIKE ?",
                                     ['%' . strtolower($search) . '%']
                                 );
                             });
