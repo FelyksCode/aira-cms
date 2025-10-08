@@ -1,8 +1,8 @@
 # ---------- base system & PHP ----------
-FROM php:8.3-fpm-alpine AS base
+FROM php:8.3-fpm-alpine
 
 # Install system dependencies
-RUN apk add --no-cache \
+RUN apk add --no-cache icu-dev \
         nginx \
         supervisor \
         bash \
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
         acl
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql zip mbstring
+RUN docker-php-ext-install pdo pdo_mysql zip mbstring intl
 
 WORKDIR /var/www/html
 
