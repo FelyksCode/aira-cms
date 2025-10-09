@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  aira_cms:
+    build: .
+    container_name: aira_cms
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - laravel_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: laravel_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker-compose/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - aira_cms
+    networks:
+      - laravel_net
+
+networks:
+  laravel_net:
+    driver: bridge

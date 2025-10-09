@@ -1,40 +1,25 @@
-# ---------- base system & PHP ----------
-FROM php:8.3-fpm-alpine
+FROM php:8.3-fpm
 
-# Install system dependencies
-RUN apk add --no-cache icu-dev \
-        nginx \
-        supervisor \
-        bash \
-        git \
-        curl \
-        libpng-dev \
-        libzip-dev \
-        oniguruma-dev \
-        acl
+# Install system deps + intl
+RUN apt-get update && apt-get install -y \
+    git unzip libpng-dev libonig-dev libxml2-dev libzip-dev libicu-dev zip curl \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql zip mbstring intl
+# Install Composer globally
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /var/www
 
-# Copy app files
+# Copy source files
 COPY . .
 
-# Copy config files (adjust paths as needed)
-COPY --chmod=755 ./docker/nginx.conf /etc/nginx/nginx.conf
-COPY --chmod=755 ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Install PHP dependencies after intl exists
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-# Composer install (production)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && composer install --optimize-autoloader --no-dev --no-interaction
+# Set permissions
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && find /var/www/html -type f -exec chmod 644 {} \; \
-    && find /var/www/html -type d -exec chmod 755 {} \;
-
-# ---------- final runtime config ----------
-EXPOSE 80
-
-CMD ["/usr/bin/supervisord", "-n"]
+EXPOSE 9000
+CMD ["php-fpm"]
