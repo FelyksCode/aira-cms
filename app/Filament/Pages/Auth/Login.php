@@ -10,13 +10,22 @@ use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\DB;
 use Satusehat\Integration\OAuth2Client;
 
 class Login extends BaseLogin
 {
+    protected string $view = 'filament.pages.auth.login';
+
+    public function getHeading(): string | Htmlable
+    {
+        return '';
+    }
+
     public function authenticate(): ?LoginResponse
     {
+
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
