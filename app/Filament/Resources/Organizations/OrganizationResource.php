@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Organizations;
 
-use App\Filament\Resources\OrganizationResource\RelationManagers\UsersRelationManager;
+use App\Filament\Resources\Organizations\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\Organizations\Pages\CreateOrganization;
 use App\Filament\Resources\Organizations\Pages\EditOrganization;
 use App\Filament\Resources\Organizations\Pages\ListOrganizations;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\OrganizationResource\RelationManagers;
+namespace App\Filament\Resources\Organizations\RelationManagers;
 
 use App\Filament\Resources\Users\UserResource;
 use Filament\Actions\CreateAction;
