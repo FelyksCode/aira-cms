@@ -23,6 +23,7 @@
                 <li><a href="/prognosis">Prognosis</a></li>
                 <li><a href="/treatment">Treatment</a></li>
                 <li><a href="/information">Informasi</a></li>
+                <li><a href="/admin/login" class="login-btn">Login</a></li>
             </ul>
         </div>
     </nav>
@@ -86,9 +87,27 @@
     document.addEventListener("DOMContentLoaded", function() {
         const burger = document.getElementById("burger");
         const menu = document.querySelector(".menu-wrapper");
+        const menuLinks = document.querySelectorAll(".menu-list li a");
 
         burger.addEventListener("click", () => {
             menu.classList.toggle("active");
+            burger.classList.toggle("active");
+        });
+
+        // Close menu when clicking a link
+        menuLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                menu.classList.remove("active");
+                burger.classList.remove("active");
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!menu.contains(e.target) && !burger.contains(e.target) && menu.classList.contains("active")) {
+                menu.classList.remove("active");
+                burger.classList.remove("active");
+            }
         });
     });
 </script>
@@ -107,7 +126,39 @@
             min-height: 100vh;
             width: 100%;
             justify-self: center;
-            background: linear-gradient(to bottom, #8ab6e3, #eef2ff);
+            background: linear-gradient(135deg, #8ab6e3, #4a90e2, #6c63ff);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            position: relative;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Add animated background particles */
+        .root-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         /* Navbar */
@@ -121,7 +172,7 @@
             padding: 0 24px;
             position: relative;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 50;
+            z-index: 1000;
         }
 
         .logo-wrapper {
@@ -160,6 +211,21 @@
             color: #181852;
         }
 
+        .login-btn {
+            background: #4a90e2;
+            color: white !important;
+            padding: 8px 24px;
+            border-radius: 50px;
+            transition: all 0.3s ease !important;
+        }
+
+        .login-btn:hover {
+            background: #357abd;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
         /* Burger */
         .burger {
             display: none;
@@ -184,9 +250,12 @@
         /* Content */
         .content-wrapper {
             flex: 1;
-            padding-top: 20vh;
-            padding-bottom: 20vh;
-
+            padding-top: 10vh;
+            padding-bottom: 10vh;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            position: relative;
         }
 
         .form-actions {
@@ -197,10 +266,37 @@
         }
 
         .fi-simple-page main {
-            background: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Form styling */
+        .fi-input-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .fi-input {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem !important;
+        }
+
+        .fi-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .fi-btn {
+            transition: all 0.3s ease;
+            transform: scale(1);
+            padding: 0.75rem 2rem !important;
+        }
+
+        .fi-btn:hover {
+            transform: scale(1.05);
         }
 
         /* Footer */
@@ -275,29 +371,87 @@
         /* Mobile responsive */
         @media (max-width: 768px) {
             .menu-wrapper {
-                position: absolute;
+                position: fixed;
                 top: 80px;
                 left: 0;
                 width: 100%;
-                background: white;
-                display: none;
+                height: 0;
+                background: rgba(255, 255, 255, 0.98);
+                opacity: 0;
+                visibility: hidden;
+                display: flex;
                 flex-direction: column;
                 align-items: center;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease-in-out;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                z-index: 999;
             }
 
             .menu-wrapper.active {
-                display: flex;
+                height: auto;
+                opacity: 1;
+                visibility: visible;
+                padding: 20px 0;
             }
 
             .menu-list {
                 flex-direction: column;
-                gap: 16px;
+                gap: 24px;
                 padding: 16px 0;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease-in-out;
+            }
+
+            .menu-wrapper.active .menu-list {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .menu-list li a {
+                font-size: 18px;
+                display: block;
+                padding: 8px 24px;
+                width: 100%;
+                text-align: center;
+                transition: all 0.3s ease;
+            }
+
+            .menu-list li a:hover {
+                background: rgba(24, 24, 82, 0.1);
+                transform: scale(1.05);
+            }
+
+            .menu-list li .login-btn {
+                text-align: center;
+            }
+
+            .menu-list li .login-btn:hover {
+                background: #357abd;
             }
 
             .burger {
                 display: flex;
+                z-index: 60;
+            }
+
+            /* Burger animation */
+            .burger span {
+                transition: all 0.3s ease-in-out;
+            }
+
+            .burger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+
+            .burger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .burger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
             }
         }
     </style>
