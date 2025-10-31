@@ -108,4 +108,25 @@
             height: 100vh;
         }
     }
+
+    h2,
+    h3,
+    p,
+    label,
+    input,
+    span {
+        color: #000 !important;
+        /* or white if preferred */
+    }
+
+    /* Keep contrast for dark backgrounds */
+    .login-left h2,
+    .login-left p {
+        color: #fff !important;
+    }
+
+    .form-actions button {
+        color: #fff !important;
+        background-color: #3B4BA6 !important;
+    }
 </style>
