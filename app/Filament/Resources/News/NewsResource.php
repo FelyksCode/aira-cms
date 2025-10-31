@@ -19,6 +19,7 @@ use UnitEnum;
 
 class NewsResource extends Resource
 {
+
     protected static ?string $model = News::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Newspaper;
