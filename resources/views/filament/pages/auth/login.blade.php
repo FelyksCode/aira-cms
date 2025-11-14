@@ -125,8 +125,7 @@
         color: #fff !important;
     }
 
-    .form-actions button {
+    .form-actions button span {
         color: #fff !important;
-        background-color: #3B4BA6 !important;
     }
 </style>

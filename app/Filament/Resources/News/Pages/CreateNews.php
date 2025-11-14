@@ -13,4 +13,13 @@ class CreateNews extends CreateRecord
     }
 
     protected static string $resource = NewsResource::class;
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (!empty($data['image_url']) && is_file($data['image_url'])) {
+            $data['image_url'] = file_get_contents($data['image_url']); 
+        }
+
+        return $data;
+    }
 }

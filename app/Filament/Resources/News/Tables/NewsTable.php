@@ -23,7 +23,7 @@ class NewsTable
                     ->searchable()
                     ->limit(20),
                 ImageColumn::make('image_url')
-                    ->label("Thumbnail"),
+                    ->label('Thumbnail'),
                 TextColumn::make('category')
                     ->badge()
                     ->sortable(),

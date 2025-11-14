@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\FeatureOptions\Schemas;
 
 use App\Models\FeatureOption;
+use Closure;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 use Filament\Schemas\Schema;
@@ -45,8 +47,8 @@ class FeatureOptionForm
                 Toggle::make('require_img')
                     ->label('Require Image')
                     ->rules([
-                        function ($attribute, $value, $fail) {
-                            if (! request('require_csv') && ! request('require_img')) {
+                        fn(Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                            if (! $get('require_csv')  && ! $get('require_img')) {
                                 $fail('At least one option must be selected.');
                             }
                         },
