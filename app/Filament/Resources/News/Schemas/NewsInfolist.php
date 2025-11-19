@@ -18,7 +18,16 @@ class NewsInfolist
                     ->columnSpanFull()
                     ->html(),
                 ImageEntry::make('image_url')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->getStateUsing(function ($record) {
+                        if (!$record->image_url) {
+                            return null;
+                        }
+
+                        $mime = $record->image_mime ?? 'image/jpeg';
+
+                        return "data:{$mime};base64," . base64_encode($record->image_url);
+                    }),
                 TextEntry::make('category')
                     ->placeholder('-')
                     ->badge(),

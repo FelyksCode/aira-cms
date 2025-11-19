@@ -28,7 +28,17 @@ class BannersTable
                     ->sortable()
                     ->searchable(),
 
-                ImageColumn::make('image_url'),
+                ImageColumn::make('image_url')
+                    ->label('Thumbnail')
+                    ->getStateUsing(function ($record) {
+                        if (!$record->image_url) {
+                            return null;
+                        }
+
+                        $mime = $record->image_mime ?? 'image/jpeg';
+
+                        return "data:{$mime};base64," . base64_encode($record->image_url);
+                    }),
 
                 ToggleColumn::make('visible')
                     ->label('Visible')
